@@ -9,6 +9,7 @@ public class IsPrime {
                 if (num % count == 0){
                     return false;
                 }
+                count++;
             }
             return true;
         }
