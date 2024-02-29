@@ -10,7 +10,7 @@ class Window(QMainWindow):
         self.setWindowTitle("Калькулятор")
         self.setGeometry(300, 250, 400, 600)
 
-        self.label = QLabel('xd', self)
+        self.label = QLabel('', self)
 
         self.button_1 = button_1()
         self.button_2 = button_2()
