@@ -12,27 +12,27 @@ class Window(QMainWindow):
 
         self.label = QLabel('', self)
 
-        self.button_1 = button_1()
-        self.button_2 = button_2()
-        self.button_3 = button_3()
-        self.button_4 = button_4()
-        self.button_5 = button_5()
-        self.button_6 = button_6()
-        self.button_7 = button_7()
-        self.button_8 = button_8()
-        self.button_9 = button_9()
-        self.button_0 = button_0()
+        self.button_1 = create_button_1()
+        self.button_2 = create_button_2()
+        self.button_3 = create_button_3()
+        self.button_4 = create_button_4()
+        self.button_5 = create_button_5()
+        self.button_6 = create_button_6()
+        self.button_7 = create_button_7()
+        self.button_8 = create_button_8()
+        self.button_9 = create_button_9()
+        self.button_0 = create_button_0()
 
-        self.plus = plus()
-        self.minus = minus()
-        self.mult = mult()
-        self.divide = divide()
-        self.open_braket = open_braket()
-        self.close_braket = close_braket()
-        self.erase = erase()    # удалить все символы
-        self.delete = delete()  # удалить один символ
-        self.equal = equal()
-        self.percent = percent()
+        self.plus = create_plus()
+        self.minus = create_minus()
+        self.mult = create_mult()
+        self.divide = create_divide()
+        self.open_braket = create_open_braket()
+        self.close_braket = create_close_braket()
+        self.erase = create_erase()    # удалить все символы
+        self.delete = create_delete()  # удалить один символ
+        self.equal = create_equal()
+        self.percent = create_percent()
 
 
 
