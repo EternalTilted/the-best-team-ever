@@ -14,16 +14,16 @@ class Window(QMainWindow):
 
         self.label = QLabel('', self)
 
-        self.button_1 = create_button_1()
-        self.button_2 = create_button_2()
-        self.button_3 = create_button_3()
-        self.button_4 = create_button_4()
-        self.button_5 = create_button_5()
-        self.button_6 = create_button_6()
-        self.button_7 = create_button_7()
-        self.button_8 = create_button_8()
-        self.button_9 = create_button_9()
-        self.button_0 = create_button_0()
+        self.button_1 = self.create_button_1()
+        self.button_2 = self.create_button_2()
+        self.button_3 = self.create_button_3()
+        self.button_4 = self.create_button_4()
+        self.button_5 = self.create_button_5()
+        self.button_6 = self.create_button_6()
+        self.button_7 = self.create_button_7()
+        self.button_8 = self.create_button_8()
+        self.button_9 = self.create_button_9()
+        self.button_0 = self.create_button_0()
 
         self.plus = self.create_plus()
         self.minus = self.create_minus()
@@ -58,6 +58,108 @@ class Window(QMainWindow):
         grid.addWidget(self.delete, 2, 0)
         grid.addWidget(self.equal, 5, 3)
         grid.addWidget(self.percent, 2, 2)
+        grid.addWidget(self.button_1, 3, 0)
+        grid.addWidget(self.button_2, 3, 1)
+        grid.addWidget(self.button_3, 3, 2)
+        grid.addWidget(self.button_4, 4, 0)
+        grid.addWidget(self.button_5, 4, 1)
+        grid.addWidget(self.button_6, 4, 2)
+        grid.addWidget(self.button_7, 5, 0)
+        grid.addWidget(self.button_8, 5, 1)
+        grid.addWidget(self.button_9, 5, 2)
+        grid.addWidget(self.button_0, 2, 1)
+
+
+    def create_button_1(self):
+        tmp = QPushButton('1', self)
+        tmp.clicked.connect(self.button_1_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_1_clicked(self):
+        self.label.setText(self.label.text() + '1')
+
+    def create_button_2(self):
+        tmp = QPushButton('2', self)
+        tmp.clicked.connect(self.button_2_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_2_clicked(self):
+        self.label.setText(self.label.text() + '2')
+
+    def create_button_3(self):
+        tmp = QPushButton('3', self)
+        tmp.clicked.connect(self.button_3_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_3_clicked(self):
+        self.label.setText(self.label.text() + '3')
+
+    def create_button_4(self):
+        tmp = QPushButton('4', self)
+        tmp.clicked.connect(self.button_4_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_4_clicked(self):
+        self.label.setText(self.label.text() + '4')
+
+    def create_button_5(self):
+        tmp = QPushButton('5', self)
+        tmp.clicked.connect(self.button_5_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_5_clicked(self):
+        self.label.setText(self.label.text() + '5')
+
+    def create_button_6(self):
+        tmp = QPushButton('6', self)
+        tmp.clicked.connect(self.button_6_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_6_clicked(self):
+        self.label.setText(self.label.text() + '6')
+
+    def create_button_7(self):
+        tmp = QPushButton('7', self)
+        tmp.clicked.connect(self.button_7_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_7_clicked(self):
+        self.label.setText(self.label.text() + '7')
+
+    def create_button_8(self):
+        tmp = QPushButton('8', self)
+        tmp.clicked.connect(self.button_8_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_8_clicked(self):
+        self.label.setText(self.label.text() + '8')
+
+    def create_button_9(self):
+        tmp = QPushButton('9', self)
+        tmp.clicked.connect(self.button_9_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_9_clicked(self):
+        self.label.setText(self.label.text() + '9')
+
+    def create_button_0(self):
+        tmp = QPushButton('0', self)
+        tmp.clicked.connect(self.button_0_clicked)
+        self.setButtonStyleSheet(tmp, type='number')
+        return tmp
+
+    def button_0_clicked(self):
+        self.label.setText(self.label.text() + '0')
+
 
     def on_plus_clicked_slot(self):
         self.label.setText(self.label.text() + '+')
@@ -144,6 +246,9 @@ class Window(QMainWindow):
             self.label.setText(str(eval(tmp)))
         except SyntaxError:
             self.label.setText('SyntaxError')
+
+        except:
+            print("blin")
 
     def create_equal(self):
         tmp = QPushButton('=', self)
