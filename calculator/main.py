@@ -1,7 +1,9 @@
+import numpy
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QGridLayout, QVBoxLayout
 
 import sys
+import numpy as np
 
 
 class Window(QMainWindow):
@@ -12,7 +14,7 @@ class Window(QMainWindow):
         self.setGeometry(300, 250, 400, 580)
         self.setFixedSize(400, 580)
 
-        self.label = QLabel('', self)
+        self.label = QLabel('{2, 3} * {1,2} -1 + 2', self)
 
         self.button_1 = self.create_button_1()
         self.button_2 = self.create_button_2()
@@ -225,7 +227,10 @@ class Window(QMainWindow):
         return tmp
 
     def on_delete_clicked_slot(self):
-        self.label.setText(self.label.text()[:-1])
+        if self.label.text() == 'Ошибка при вычислении':
+            self.label.setText('')
+        else:
+            self.label.setText(self.label.text()[:-1])
 
     def create_delete(self):
         tmp = QPushButton('CE', self)
@@ -233,22 +238,31 @@ class Window(QMainWindow):
         self.setButtonStyleSheet(tmp, type='delete')
         return tmp
 
+    def convert_eval_to_string(self, eval):
+        if type(eval) == np.ndarray:
+            result = str(list(eval))
+            result = result.replace('[', '{')
+            result = result.replace(']', '}')
+            return result
+        else:
+            return str(eval)
+
     def on_equal_clicked_slot(self):
         if self.label.text() == '':
             self.label.setText('0')
             return
 
-        if self.label.text() == 'SyntaxError':
+        if self.label.text() == 'Ошибка при вычислении':
             return
 
         try:
             tmp = self.label.text().replace('%', '/100')
-            self.label.setText(str(eval(tmp)))
-        except SyntaxError:
-            self.label.setText('SyntaxError')
-
+            tmp = tmp.replace('{', "np.array([")
+            tmp = tmp.replace('}', "])")
+            result = eval(tmp)
+            self.label.setText(self.convert_eval_to_string(result))
         except:
-            print("blin")
+            self.label.setText('Ошибка при вычислении')
 
     def create_equal(self):
         tmp = QPushButton('=', self)
