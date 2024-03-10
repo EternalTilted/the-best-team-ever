@@ -6,6 +6,7 @@ import sys
 import numpy as np
 
 
+
 class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
@@ -37,9 +38,16 @@ class Window(QMainWindow):
         self.delete = self.create_delete()  # удалить один символ
         self.equal = self.create_equal()
         self.percent = self.create_percent()
+        self.lbrace = self.create_lbrace()
+        self.rbrace = self.create_rbrace()
+        self.dot = self.create_dot()
+        self.comma = self.create_comma()
+        self.v_mult = self.create_v_mult()
+
 
         self.central_widget = QtWidgets.QWidget()
         self.prepare_ui()
+
 
     def prepare_ui(self):
         self.setStyleSheet('background: #111; color: #fff; font-size: 32px')
@@ -58,7 +66,7 @@ class Window(QMainWindow):
         grid.addWidget(self.close_bracket, 1, 2)
         grid.addWidget(self.erase, 1, 0)
         grid.addWidget(self.delete, 2, 0)
-        grid.addWidget(self.equal, 5, 3)
+        grid.addWidget(self.equal, 5, 6)
         grid.addWidget(self.percent, 2, 2)
         grid.addWidget(self.button_1, 3, 0)
         grid.addWidget(self.button_2, 3, 1)
@@ -70,7 +78,60 @@ class Window(QMainWindow):
         grid.addWidget(self.button_8, 5, 1)
         grid.addWidget(self.button_9, 5, 2)
         grid.addWidget(self.button_0, 2, 1)
+        grid.addWidget(self.lbrace, 1, 6)
+        grid.addWidget(self.rbrace, 2, 6)
+        grid.addWidget(self.comma, 3, 6)
+        grid.addWidget(self.v_mult, 4, 6)
+        grid.addWidget(self.dot, 5, 3)
 
+
+
+    def create_dot(self):
+        tmp = QPushButton('.', self)
+        tmp.clicked.connect(self.dot_clicked)
+        self.setButtonStyleSheet(tmp, type='operation')
+        return tmp
+
+    def dot_clicked(self):
+        self.label.setText(self.label.text() + '.')
+
+    def create_v_mult(self):
+        tmp = QPushButton('@', self)
+        tmp.clicked.connect(self.v_mult_clicked)
+        self.setButtonStyleSheet(tmp, type='operation')
+        return tmp
+
+    def v_mult_clicked(self):
+        #крайняя мера, если не получится ничего другого
+        if self.label.text()[-1] != "@":
+            self.label.setText(self.label.text() + '@')
+
+    def create_comma(self):
+        tmp = QPushButton(',', self)
+        tmp.clicked.connect(self.comma_clicked)
+        self.setButtonStyleSheet(tmp, type='operation')
+        return tmp
+
+    def comma_clicked(self):
+        self.label.setText(self.label.text() + ',')
+
+    def create_lbrace(self):
+        tmp = QPushButton('{', self)
+        tmp.clicked.connect(self.lbrace_clicked)
+        self.setButtonStyleSheet(tmp, type='operation')
+        return tmp
+
+    def lbrace_clicked(self):
+        self.label.setText(self.label.text() + '{')
+
+    def create_rbrace(self):
+        tmp = QPushButton('}', self)
+        tmp.clicked.connect(self.rbrace_clicked)
+        self.setButtonStyleSheet(tmp, type='operation')
+        return tmp
+
+    def rbrace_clicked(self):
+        self.label.setText(self.label.text() + '}')
 
     def create_button_1(self):
         tmp = QPushButton('1', self)
@@ -295,7 +356,7 @@ class Window(QMainWindow):
             color = '#f9f9f9'
             background = '#318507'
 
-        size = int(self.size().width() / 4 * 0.9)
+        size = int(self.size().width() / 5 * 0.9)
         button.setFixedSize(size, size)
         styleSheet =str(
         '''
