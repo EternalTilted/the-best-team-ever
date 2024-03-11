@@ -15,7 +15,7 @@ class Window(QMainWindow):
         self.setGeometry(300, 250, 400, 580)
         self.setFixedSize(400, 580)
 
-        self.label = QLabel('{2, 3} * {1,2} -1 + 2', self)
+        self.label = QLabel('', self)
 
         self.button_1 = self.create_button_1()
         self.button_2 = self.create_button_2()
@@ -93,7 +93,8 @@ class Window(QMainWindow):
         return tmp
 
     def dot_clicked(self):
-        self.label.setText(self.label.text() + '.')
+        if self.label.text() == '' or self.label.text()[-1] != ".":
+            self.label.setText(self.label.text() + '.')
 
     def create_v_mult(self):
         tmp = QPushButton('@', self)
@@ -102,8 +103,7 @@ class Window(QMainWindow):
         return tmp
 
     def v_mult_clicked(self):
-        #крайняя мера, если не получится ничего другого
-        if self.label.text()[-1] != "@":
+        if self.label.text() == '' or self.label.text()[-1] != "@":
             self.label.setText(self.label.text() + '@')
 
     def create_comma(self):
@@ -113,7 +113,8 @@ class Window(QMainWindow):
         return tmp
 
     def comma_clicked(self):
-        self.label.setText(self.label.text() + ',')
+        if self.label.text() == '' or self.label.text()[-1] != ",":
+            self.label.setText(self.label.text() + ',')
 
     def create_lbrace(self):
         tmp = QPushButton('{', self)
@@ -225,7 +226,8 @@ class Window(QMainWindow):
 
 
     def on_plus_clicked_slot(self):
-        self.label.setText(self.label.text() + '+')
+        if self.label.text() == '' or self.label.text()[-1] != "+":
+            self.label.setText(self.label.text() + '+')
 
     def create_plus(self):
         tmp = QPushButton('+', self)
@@ -234,7 +236,8 @@ class Window(QMainWindow):
         return tmp
 
     def on_minus_clicked_slot(self):
-        self.label.setText(self.label.text() + '-')
+        if self.label.text() == '' or self.label.text()[-1] != "-":
+            self.label.setText(self.label.text() + '-')
 
     def create_minus(self):
         tmp = QPushButton('-', self)
@@ -243,7 +246,8 @@ class Window(QMainWindow):
         return tmp
 
     def on_mult_clicked_slot(self):
-        self.label.setText(self.label.text() + '*')
+        if self.label.text() == '' or self.label.text()[-1] != "*":
+            self.label.setText(self.label.text() + '*')
 
     def create_mult(self):
         tmp = QPushButton('*', self)
@@ -252,7 +256,8 @@ class Window(QMainWindow):
         return tmp
 
     def on_divide_clicked_slot(self):
-        self.label.setText(self.label.text() + '/')
+        if self.label.text() == '' or self.label.text()[-1] != "/":
+            self.label.setText(self.label.text() + '/')
 
     def create_divide(self):
         tmp = QPushButton('/', self)
@@ -332,7 +337,8 @@ class Window(QMainWindow):
         return tmp
 
     def on_percent_clicked_slot(self):
-        self.label.setText(self.label.text() + '%')
+        if self.label.text() == '' or self.label.text()[-1] != "%":
+            self.label.setText(self.label.text() + '%')
 
     def create_percent(self):
         tmp = QPushButton('%', self)
