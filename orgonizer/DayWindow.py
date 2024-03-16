@@ -2,12 +2,15 @@ from PyQt5.QtWidgets import QMainWindow, QLabel
 from PyQt5 import uic
 
 from EventWidget import EventWidget
+from Event import Event
+from AddEventDialog import AddEventDialog
 
 
 class DayWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi('DayWindow.ui', self)
+        self.ui.pbAddNew.clicked.connect(self.add_event_clicked_slot)
 
         self.hourToLabel = {
             0: self.ui.label_1,
@@ -37,34 +40,61 @@ class DayWindow(QMainWindow):
         }
 
         self.events = []
-        self.started = False
 
     def test(self):
-        self.started = True
-        self.createEvent((0, 0), (3, 0), '<b>Правоведение</b><br/>University', EventWidget.colors['green'])
-        self.createEvent((5, 0), (6, 0), '<b>Работа</b><br/>Work', EventWidget.colors['pink'])
-        self.createEvent((8, 0), (13, 0), '<b>Test</b><br/>Тест', EventWidget.colors['red'])
-        self.createEvent((18, 0), (21, 0), '<b>Тест 2</b><br/>Test 2', EventWidget.colors['orange'])
+        self.create_event('Правоведение', (0, 0), (3, 0), 'University', EventWidget.colors['green'])
+        self.create_event('Работа', (5, 0), (6, 0), 'Work', EventWidget.colors['pink'])
+        self.create_event('Test', (8, 0), (13, 0), 'Тест', EventWidget.colors['red'])
+        self.create_event('Тест 2', (18, 0), (21, 0), 'Test 2', EventWidget.colors['orange'])
 
-    def createEvent(self, start_time, stop_time, text, color):
-        tmp = EventWidget(text, self, color=color)
+    def create_event(self, name, start_time, stop_time, description, color):
+        text = f'<b>{name}</b><br/>{description}'
+        event = Event(10, name, 'today', start_time, stop_time, description)
+        tmp = EventWidget(event, text, self, color=color)
         y_pos = self.hourToLabel[start_time[0]].pos().y() + 10
         y_stop = self.hourToLabel[stop_time[0]].pos().y() + 10
-        height = y_stop - y_pos
+        height = max(y_stop - y_pos, 20)
         width = self.width() - self.hourToLabel[start_time[0]].width() - 40
         tmp.setGeometry(50, y_pos, width, height)
+        tmp.clickedSignal.connect(self.event_clicked_slot)
 
         self.events.append(tmp)
         tmp.show()
 
+    def event_clicked_slot(self):
+        print(self.sender().event)
+
+    def add_event_clicked_slot(self):
+        dialog = AddEventDialog(self)
+        if dialog.exec() == AddEventDialog.DialogCode.Accepted:
+            start_time = (dialog.start_time().hour(), dialog.start_time().minute())
+            stop_time = (dialog.stop_time().hour(), dialog.stop_time().minute())
+
+            if stop_time < start_time:
+                start_time, stop_time = stop_time, start_time
+
+            event = Event(None, dialog.name(), dialog.date(), start_time, stop_time, dialog.description())
+
+            text = f'<b>{dialog.name()}</b><br/>{dialog.description()}'
+
+            tmp = EventWidget(event, text, self, color=EventWidget.colors['green'])
+            y_pos = self.hourToLabel[start_time[0]].pos().y() + 10
+            y_stop = self.hourToLabel[stop_time[0]].pos().y() + 10
+            height = max(y_stop - y_pos, 20)
+            width = self.width() - self.hourToLabel[start_time[0]].width() - 40
+
+            tmp.setGeometry(50, y_pos, width, height)
+            tmp.clickedSignal.connect(self.event_clicked_slot)
+
+            self.events.append(tmp)
+            tmp.show()
+
+
     def resizeEvent(self, event):
-        if not self.started:
-            return
         for tmp in self.events:
-            tmp.hide()
-            tmp.deleteLater()
+            y_pos = self.hourToLabel[tmp.event.start_time[0]].pos().y() + 10
+            y_stop = self.hourToLabel[tmp.event.stop_time[0]].pos().y() + 10
+            height = max(y_stop - y_pos, 20)
+            width = self.width() - self.hourToLabel[tmp.event.start_time[0]].width() - 40
+            tmp.setGeometry(50, y_pos, width, height)
 
-        self.events.clear()
-
-        self.test()
-        self.update()
