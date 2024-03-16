@@ -6,24 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>356</width>
+    <width>359</width>
     <height>742</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Органайзер [День]</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="pbGoBack">
+       <widget class="QPushButton" name="pbWeek">
         <property name="styleSheet">
-         <string notr="true">min-width:10px;</string>
+         <string notr="true">min-width:50px;</string>
         </property>
         <property name="text">
-         <string>&lt;</string>
+         <string>Неделя</string>
         </property>
        </widget>
       </item>
@@ -111,6 +111,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">

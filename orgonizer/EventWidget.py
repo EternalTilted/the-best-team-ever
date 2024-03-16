@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QLabel
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal, QPoint
 
 from Event import Event
 
@@ -13,6 +13,7 @@ class EventWidget(QLabel):
     }
 
     clickedSignal = pyqtSignal()
+    contextRequest = pyqtSignal(QPoint)
 
     def __init__(self, event, *__args, **kwargs):
         super().__init__(*__args)
@@ -33,4 +34,8 @@ class EventWidget(QLabel):
         """.replace('%1', str(alpha)).replace('%2', color))
 
     def mousePressEvent(self, ev):
-        self.clickedSignal.emit()
+        if ev.button() == Qt.LeftButton:
+            self.clickedSignal.emit()
+        elif ev.button() == Qt.RightButton:
+            self.contextRequest.emit(ev.pos())
+
