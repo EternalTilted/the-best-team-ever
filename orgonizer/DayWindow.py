@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QMenu, QAction
+from PyQt5.QtWidgets import QMainWindow, QMenu, QAction, QVBoxLayout
 from PyQt5.QtCore import QDate
 from PyQt5 import uic
 
@@ -16,31 +16,33 @@ class DayWindow(QMainWindow):
         self.ui.pbWeek.clicked.connect(self.open_week_window_slot)
         self.weekWindow = WeekWindow(self)
 
+        self.setStyleSheet('QFrame[frameShape="4"] { max-height: none; }')
+
         self.hourToLabel = {
-            0: self.ui.label_1,
-            1: self.ui.label_2,
-            2: self.ui.label_3,
-            3: self.ui.label_4,
-            4: self.ui.label_5,
-            5: self.ui.label_6,
-            6: self.ui.label_7,
-            7: self.ui.label_8,
-            8: self.ui.label_9,
-            9: self.ui.label_10,
-            10: self.ui.label_11,
-            11: self.ui.label_12,
-            12: self.ui.label_13,
-            13: self.ui.label_14,
-            14: self.ui.label_15,
-            15: self.ui.label_16,
-            16: self.ui.label_17,
-            17: self.ui.label_18,
-            18: self.ui.label_19,
-            19: self.ui.label_20,
-            20: self.ui.label_21,
-            21: self.ui.label_22,
-            22: self.ui.label_23,
-            23: self.ui.label_24
+            0: self.ui.line_1,
+            1: self.ui.line_2,
+            2: self.ui.line_3,
+            3: self.ui.line_4,
+            4: self.ui.line_5,
+            5: self.ui.line_6,
+            6: self.ui.line_7,
+            7: self.ui.line_8,
+            8: self.ui.line_9,
+            9: self.ui.line_10,
+            10: self.ui.line_11,
+            11: self.ui.line_12,
+            12: self.ui.line_13,
+            13: self.ui.line_14,
+            14: self.ui.line_15,
+            15: self.ui.line_16,
+            16: self.ui.line_17,
+            17: self.ui.line_18,
+            18: self.ui.line_19,
+            19: self.ui.line_20,
+            20: self.ui.line_21,
+            21: self.ui.line_22,
+            22: self.ui.line_23,
+            23: self.ui.line_24
         }
 
         self.dayNumberToButton = {
@@ -82,16 +84,22 @@ class DayWindow(QMainWindow):
         text = f'<b>{name}</b><br/>{description}'
         event = Event(10, name, 'today', start_time, stop_time, description)
         tmp = EventWidget(event, text, self, color=color)
-        y_pos = self.hourToLabel[start_time[0]].pos().y() + 10
-        y_stop = self.hourToLabel[stop_time[0]].pos().y() + 10
-        height = max(y_stop - y_pos, 20)
-        width = self.width() - self.hourToLabel[start_time[0]].width() - 40
-        tmp.setGeometry(50, y_pos, width, height)
+        self.set_event_geometry(tmp)
         tmp.clickedSignal.connect(self.event_clicked_slot)
         tmp.contextRequest.connect(self.context_request_slot)
 
         self.events.append(tmp)
         tmp.show()
+
+    def set_event_geometry(self, tmp):
+        x_pos = self.hourToLabel[tmp.event.start_time[0]].pos().x() + 10
+        y_pos = (self.hourToLabel[tmp.event.start_time[0]].pos().y() +
+                 self.hourToLabel[tmp.event.start_time[0]].height() // 2)
+        y_stop = (self.hourToLabel[tmp.event.stop_time[0]].pos().y() +
+                  self.hourToLabel[tmp.event.stop_time[0]].height() // 2)
+        height = max(y_stop - y_pos, 20)
+        width = self.hourToLabel[tmp.event.start_time[0]].width() - 20
+        tmp.setGeometry(x_pos, y_pos, width, height)
 
     def event_clicked_slot(self):
         print(self.sender().event)
@@ -125,12 +133,7 @@ class DayWindow(QMainWindow):
             text = f'<b>{dialog.name()}</b><br/>{dialog.description()}'
 
             tmp = EventWidget(event, text, self, color=EventWidget.colors['green'])
-            y_pos = self.hourToLabel[start_time[0]].pos().y() + 10
-            y_stop = self.hourToLabel[stop_time[0]].pos().y() + 10
-            height = max(y_stop - y_pos, 20)
-            width = self.width() - self.hourToLabel[start_time[0]].width() - 40
-
-            tmp.setGeometry(50, y_pos, width, height)
+            self.set_event_geometry(tmp)
             tmp.clickedSignal.connect(self.event_clicked_slot)
             tmp.contextRequest.connect(self.context_request_slot)
 
@@ -139,9 +142,5 @@ class DayWindow(QMainWindow):
 
     def resizeEvent(self, event):
         for tmp in self.events:
-            y_pos = self.hourToLabel[tmp.event.start_time[0]].pos().y() + 10
-            y_stop = self.hourToLabel[tmp.event.stop_time[0]].pos().y() + 10
-            height = max(y_stop - y_pos, 20)
-            width = self.width() - self.hourToLabel[tmp.event.start_time[0]].width() - 40
-            tmp.setGeometry(50, y_pos, width, height)
+            self.set_event_geometry(tmp)
 
