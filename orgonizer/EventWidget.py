@@ -12,7 +12,7 @@ class EventWidget(QLabel):
         'green': '008000'
     }
 
-    clickedSignal = pyqtSignal()
+    doubleClickedSignal = pyqtSignal()
     contextRequest = pyqtSignal(QPoint)
 
     def __init__(self, event, *__args, **kwargs):
@@ -34,8 +34,9 @@ class EventWidget(QLabel):
         """.replace('%1', str(alpha)).replace('%2', color))
 
     def mousePressEvent(self, ev):
-        if ev.button() == Qt.LeftButton:
-            self.clickedSignal.emit()
-        elif ev.button() == Qt.RightButton:
+        if ev.button() == Qt.RightButton:
             self.contextRequest.emit(ev.pos())
 
+    def mouseDoubleClickEvent(self, a0):
+        if a0.button() == Qt.LeftButton:
+            self.doubleClickedSignal.emit()

@@ -8,6 +8,6 @@ if __name__ == '__main__':
 
     window = DayWindow()
     window.show()
-    window.test()
+    window.create_pseudo_events()
 
     app.exec()

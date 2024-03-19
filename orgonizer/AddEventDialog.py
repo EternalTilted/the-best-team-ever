@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import uic
-from PyQt5.QtCore import QDate, QTime
+from PyQt5.QtCore import QDate
 
 from PyQt5.QtCore import Qt
 
@@ -11,9 +11,11 @@ class AddEventDialog(QDialog):
         self.ui = uic.loadUi('AddEventDialog.ui', self)
         self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
         self.ui.dateEdit.setDate(QDate.currentDate())
+        self.init_connections()
 
-        tie = QTime()
-        tie.minute()
+    def init_connections(self):
+        self.ui.timeEditStart.timeChanged.connect(self.start_time_edit_slot)
+        self.ui.timeEditStop.timeChanged.connect(self.stop_time_edit_slot)
 
     def name(self):
         return self.ui.leName.text()
@@ -29,3 +31,11 @@ class AddEventDialog(QDialog):
 
     def description(self):
         return self.ui.teDescription.toPlainText()
+
+    def start_time_edit_slot(self):
+        if self.start_time() > self.stop_time():
+            self.ui.timeEditStop.setTime(self.start_time())
+
+    def stop_time_edit_slot(self):
+        if self.start_time() > self.stop_time():
+            self.ui.timeEditStart.setTime(self.stop_time())
