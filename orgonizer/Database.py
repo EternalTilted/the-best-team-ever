@@ -1,6 +1,6 @@
 import sqlite3
 
-class Event:
+class Database:
     def __init__(self):
         self.connection = sqlite3.connect('MyDatabase.db', check_same_thread=False)
 
@@ -35,7 +35,7 @@ class Event:
         self.connection.commit()
         cursor.close()
 
-
+"""
 Controller = Event()
 
 #Controller.create_event("02.02", "чачлыки", "19:00", "23:00")
@@ -44,5 +44,6 @@ print(Controller.read_events())
 Controller.delete_event(3)
 
 #Controller.update_event(1, "02.02", 'баран', '19:00', '23:00', 'None')
-
-
+"""
+Controller = Database()
+print(Controller.read_events())

@@ -10,3 +10,9 @@ class Event:
 
     def __str__(self):
         return f'Event({self.id}, "{self.name}", {self.date}, {self.start_time}, {self.stop_time}, "{self.description}")'
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+    def get_id(self):
+        return id
