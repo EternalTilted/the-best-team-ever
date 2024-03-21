@@ -14,8 +14,8 @@ class AddEventDialog(QDialog):
         self.init_connections()
 
     def init_connections(self):
-        self.ui.timeEditStart.timeChanged.connect(self.start_time_edit_slot)
-        self.ui.timeEditStop.timeChanged.connect(self.stop_time_edit_slot)
+        self.ui.timeEditStart.editingFinished.connect(self.start_time_edit_slot)
+        self.ui.timeEditStop.editingFinished.connect(self.stop_time_edit_slot)
 
     def name(self):
         return self.ui.leName.text()

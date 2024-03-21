@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QDate, QTime
 
-from orgonizer.Database import Database
-from orgonizer.Event import Event
+from Database import Database
+from Event import Event
 
 
 class EventManager:
