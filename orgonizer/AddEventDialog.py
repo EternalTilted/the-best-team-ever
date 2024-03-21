@@ -6,12 +6,22 @@ from PyQt5.QtCore import Qt
 
 
 class AddEventDialog(QDialog):
-    def __init__(self, *args):
+    def __init__(self, date, event, *args):
         super().__init__(*args)
         self.ui = uic.loadUi('AddEventDialog.ui', self)
         self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
         self.ui.dateEdit.setDate(QDate.currentDate())
         self.init_connections()
+        self.ui.dateEdit.setDate(date)
+        self.event = event
+
+        if self.event is not None:
+            self.setWindowTitle('Редактирование')
+            self.ui.leName.setText(event.name)
+            self.ui.dateEdit.setDate(event.date)
+            self.ui.timeEditStart.setTime(event.start_time)
+            self.ui.timeEditStop.setTime(event.stop_time)
+            self.ui.teDescription.setText(event.description)
 
     def init_connections(self):
         self.ui.timeEditStart.editingFinished.connect(self.start_time_edit_slot)

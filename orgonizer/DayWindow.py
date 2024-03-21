@@ -3,6 +3,7 @@ import random
 from PyQt5.QtWidgets import QMainWindow, QMenu, QAction, QVBoxLayout
 from PyQt5.QtCore import QDate, QTime
 from PyQt5 import uic
+from PyQt5.Qt import QDesktopServices, QUrl
 
 from EventWidget import EventWidget
 from Event import Event
@@ -19,6 +20,7 @@ class DayWindow(QMainWindow):
         self.ui.pbWeek.clicked.connect(self.open_week_window_slot)
         self.weekWindow = WeekWindow(self)
         self.currentDayNumber = QDate.currentDate().dayOfWeek()
+        self.currentDay = QDate.currentDate()
 
         self.setStyleSheet('QFrame[frameShape="4"] { max-height: none; }')  # Это стиль для горизонтальных линий
 
@@ -34,14 +36,20 @@ class DayWindow(QMainWindow):
         self.eventManager = EventManager()
 
     def init_events(self):
-        for event in self.eventManager.get_by_date(QDate.currentDate()):
+        for event in self.eventManager.get_by_date(self.currentDay):
             self.create_event(event, random.choice(list(EventWidget.colors.values())))
+
+    def clear_events(self):
+        for event in self.eventWidgets:
+            event.deleteLater()
+        self.eventWidgets.clear()
 
     def day_changed_slot(self):
         self.currentDayNumber = list(self.dayNumberToButton.keys())[list(self.dayNumberToButton.values()).index(self.sender())]
-        print(f'Выбрали день недели: {self.currentDayNumber}')
-        print('Надо бы угадать дату и обновить список событий')
+        self.currentDay = QDate.currentDate().addDays(self.currentDayNumber - QDate.currentDate().dayOfWeek())
         self.update_days_style()
+        self.clear_events()
+        self.init_events()
 
     def update_days_style(self):
         for i in range(1, 8):
@@ -77,7 +85,16 @@ class DayWindow(QMainWindow):
         tmp.setGeometry(x_pos, y_pos, width, height)
 
     def event_double_clicked_slot(self):
-        print(f'double_clicked "{self.sender().event}"')
+        eventWidget = self.sender()
+        dialog = AddEventDialog(self.currentDay, eventWidget.event, self)
+        if dialog.exec() == AddEventDialog.DialogCode.Accepted:
+            event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
+            if event.date == self.currentDay:
+                eventWidget.event = event
+                self.set_event_geometry(eventWidget)
+            else:
+                self.eventWidgets.remove(eventWidget)
+                eventWidget.deleteLater()
 
     def context_request_slot(self, pos):
         menu = QMenu(self)
@@ -91,24 +108,37 @@ class DayWindow(QMainWindow):
 
     def edit_slot(self):
         eventWidget = self.sender().parent()
-        print(f'Изменение "{eventWidget.event}"')
-        print('Пока нет реализации')
+        dialog = AddEventDialog(self.currentDay, eventWidget.event, self)
+        if dialog.exec() == AddEventDialog.DialogCode.Accepted:
+            event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
+            if event.date == self.currentDay:
+                eventWidget.event = event
+                self.set_event_geometry(eventWidget)
+            else:
+                self.eventWidgets.remove(eventWidget)
+                eventWidget.deleteLater()
 
     def delete_slot(self):
         eventWidget = self.sender().parent()
-        print(f'Удаление "{eventWidget.event}"')
-        print('runtime удаление из окна не реализовано. Перезапустите приложение')
         self.eventManager.delete_event(eventWidget.event)
+        self.eventWidgets.remove(eventWidget)
+        eventWidget.deleteLater()
 
     def open_week_window_slot(self):
         self.weekWindow.show()
         self.hide()
 
     def add_event_clicked_slot(self):
-        dialog = AddEventDialog(self)
+        dialog = AddEventDialog(self.currentDay, None, self)
         if dialog.exec() == AddEventDialog.DialogCode.Accepted:
             event = self.eventManager.add_event(dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
-            self.create_event(event, random.choice(list(EventWidget.colors.values())))
+
+            if self.currentDay == event.date:
+                self.create_event(event, random.choice(list(EventWidget.colors.values())))
+
+            # пасхалка
+            if dialog.name().lower().startswith('кузне'):
+                QDesktopServices.openUrl(QUrl('https://youtu.be/YfS_dKfcj5I?si=NYtxITdU2_mDvds0'))
 
     def resizeEvent(self, event):
         for tmp in self.eventWidgets:
