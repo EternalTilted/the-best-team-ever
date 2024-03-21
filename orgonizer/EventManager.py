@@ -1,3 +1,5 @@
+from PyQt5.QtCore import QDate, QTime
+
 from orgonizer.Database import Database
 from orgonizer.Event import Event
 
@@ -7,13 +9,14 @@ class EventManager:
         self.event_list = []
         self.Controller = Database()
         for event in self.Controller.read_events():
-            self.event_list.append(Event(id=event[0], name=event[1], date=event[5], start_time=event[2],
-                                         stop_time=event[3],
+            self.event_list.append(Event(id=event[0], name=event[1], date=QDate.fromString(event[5]),
+                                         start_time=QTime.fromString(event[2]),
+                                         stop_time=QTime.fromString(event[3]),
                                          description=event[4]))
 
     def add_event(self, name, date, start_time, stop_time, description):
 
-        id = self.Controller.create_event(date, name, start_time, stop_time, description)
+        id = self.Controller.create_event(date.toString(), name, start_time.toString(), stop_time.toString(), description)
         new_event = Event(id, name, date, start_time, stop_time, description)
         self.event_list.append(new_event)
         return new_event
@@ -34,11 +37,11 @@ class EventManager:
                 event.start_time = start_time
                 event.stop_time = stop_time
                 event.description = description
-                self.Controller.update_event(event.get_id(), date, name, start_time, stop_time, description)
+                self.Controller.update_event(event.get_id(), date.toString(), name, start_time.toString(),
+                                             stop_time.toString(), description)
                 return event
 
     def delete_event(self, event_for_delete):
-        print(event_for_delete.get_id())
         self.Controller.delete_event(event_for_delete.get_id())
         for i in range(len(self.event_list)):
             if self.event_list[i] == event_for_delete:
