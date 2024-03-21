@@ -8,6 +8,7 @@ from EventWidget import EventWidget
 from Event import Event
 from AddEventDialog import AddEventDialog
 from WeekWindow import WeekWindow
+from EventManager import EventManager
 
 
 class DayWindow(QMainWindow):
@@ -29,7 +30,12 @@ class DayWindow(QMainWindow):
         for button in self.dayNumberToButton.values():
             button.clicked.connect(self.day_changed_slot)
 
-        self.events = []
+        self.eventWidgets = []
+        self.eventManager = EventManager()
+
+    def init_events(self):
+        for event in self.eventManager.get_by_date(QDate.currentDate()):
+            self.create_event(event, random.choice(list(EventWidget.colors.values())))
 
     def day_changed_slot(self):
         self.currentDayNumber = list(self.dayNumberToButton.keys())[list(self.dayNumberToButton.values()).index(self.sender())]
@@ -45,25 +51,14 @@ class DayWindow(QMainWindow):
             else:
                 button.setStyleSheet('color: #0000ff; min-width: 10px;')
 
-    def create_pseudo_events(self):
-        self.create_event('Правоведение', QDate.currentDate(), QTime(0, 0), QTime(3, 0), 'University',
-                          random.choice(list(EventWidget.colors.values())))
-        self.create_event('Работа', QDate.currentDate(), QTime(5, 0), QTime(6, 0), 'Work',
-                          random.choice(list(EventWidget.colors.values())))
-        self.create_event('Test', QDate.currentDate(), QTime(8, 0), QTime(13, 0), 'Тест',
-                          random.choice(list(EventWidget.colors.values())))
-        self.create_event('Тест 2', QDate.currentDate(), QTime(18, 0), QTime(21, 0), 'Test 2',
-                          random.choice(list(EventWidget.colors.values())))
-
-    def create_event(self, name, date, start_time, stop_time, description, color):
-        text = f'<b>{name}</b><br/>{description}'
-        event = Event(None, name, date, start_time, stop_time, description)
+    def create_event(self, event, color):
+        text = f'<b>{event.name}</b><br/>{event.description}'
         tmp = EventWidget(event, text, self, color=color)
         self.set_event_geometry(tmp)
         tmp.doubleClickedSignal.connect(self.event_double_clicked_slot)
         tmp.contextRequest.connect(self.context_request_slot)
 
-        self.events.append(tmp)
+        self.eventWidgets.append(tmp)
         tmp.show()
 
     def set_event_geometry(self, tmp):
@@ -97,10 +92,13 @@ class DayWindow(QMainWindow):
     def edit_slot(self):
         eventWidget = self.sender().parent()
         print(f'Изменение "{eventWidget.event}"')
+        print('Пока нет реализации')
 
     def delete_slot(self):
         eventWidget = self.sender().parent()
         print(f'Удаление "{eventWidget.event}"')
+        print('runtime удаление из окна не реализовано. Перезапустите приложение')
+        self.eventManager.delete_event(eventWidget.event)
 
     def open_week_window_slot(self):
         self.weekWindow.show()
@@ -109,14 +107,11 @@ class DayWindow(QMainWindow):
     def add_event_clicked_slot(self):
         dialog = AddEventDialog(self)
         if dialog.exec() == AddEventDialog.DialogCode.Accepted:
-            start_time = dialog.start_time()
-            stop_time = dialog.stop_time()
-
-            self.create_event(dialog.name(), dialog.date(), start_time, stop_time, dialog.description(),
-                              random.choice(list(EventWidget.colors.values())))
+            event = self.eventManager.add_event(dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
+            self.create_event(event, random.choice(list(EventWidget.colors.values())))
 
     def resizeEvent(self, event):
-        for tmp in self.events:
+        for tmp in self.eventWidgets:
             self.set_event_geometry(tmp)
 
     def init_dicts(self):
