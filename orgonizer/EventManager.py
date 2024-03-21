@@ -38,6 +38,7 @@ class EventManager:
                 return event
 
     def delete_event(self, event_for_delete):
+        print(event_for_delete.get_id())
         self.Controller.delete_event(event_for_delete.get_id())
         for i in range(len(self.event_list)):
             if self.event_list[i] == event_for_delete:

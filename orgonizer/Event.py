@@ -15,4 +15,4 @@ class Event:
         return self.id == other.id
 
     def get_id(self):
-        return id
+        return self.id
