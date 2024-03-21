@@ -9,8 +9,10 @@ class Database:
         cursor = self.connection.cursor()
         cursor.execute(f'''INSERT OR IGNORE INTO Event (date, name, begin, end, descryption)
                                    VALUES ("{date}", "{name}", "{begin}", "{end}", "{descryption}")''')
+        res = cursor.lastrowid
         self.connection.commit()
         cursor.close()
+        return res
 
     def read_events(self):
         cursor = self.connection.cursor()

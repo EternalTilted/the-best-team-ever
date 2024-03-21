@@ -12,8 +12,9 @@ class EventManager:
                                          description=event[4]))
 
     def add_event(self, name, date, start_time, stop_time, description):
-        new_event = Event(name, date, start_time, stop_time, description)
-        self.Controller.create_event(date, name, start_time, stop_time, description)
+
+        id = self.Controller.create_event(date, name, start_time, stop_time, description)
+        new_event = Event(id, name, date, start_time, stop_time, description)
         self.event_list.append(new_event)
         return new_event
 
