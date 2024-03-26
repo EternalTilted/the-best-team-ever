@@ -38,7 +38,6 @@ class DayWindow(QMainWindow):
     def keyPressEvent(self, event):
         if event.key() == 43 or event.key() == 61:
             self.add_event_clicked_slot()
-        #print("pressed key " + str(event.key()))
 
     def init_events(self):
         for event in self.eventManager.get_by_date(self.currentDay):
@@ -96,6 +95,8 @@ class DayWindow(QMainWindow):
             event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
             if event.date == self.currentDay:
                 eventWidget.event = event
+                text = f'<b>{event.name}</b><br/>{event.description}'
+                eventWidget.setText(text)
                 self.set_event_geometry(eventWidget)
             else:
                 self.eventWidgets.remove(eventWidget)
@@ -118,6 +119,8 @@ class DayWindow(QMainWindow):
             event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
             if event.date == self.currentDay:
                 eventWidget.event = event
+                text = f'<b>{event.name}</b><br/>{event.description}'
+                eventWidget.setText(text)
                 self.set_event_geometry(eventWidget)
             else:
                 self.eventWidgets.remove(eventWidget)
