@@ -14,12 +14,22 @@ class EventManager:
                                          stop_time=QTime.fromString(event[3]),
                                          description=event[4]))
 
+    def check_collisions(self, event):
+        warning_list = []
+        for event_in_list in self.event_list:
+            if ((event.start_time >= event_in_list.start_time and event.start_time < event.stop_time)
+                    or (event.stop_time > event_in_list.start_time and event.stop_time <= event_in_list.stop_time)):
+                warning_list.append(event_in_list)
+        return warning_list
+
+
     def add_event(self, name, date, start_time, stop_time, description):
 
         id = self.Controller.create_event(date.toString(), name, start_time.toString(), stop_time.toString(), description)
         new_event = Event(id, name, date, start_time, stop_time, description)
         self.event_list.append(new_event)
-        return new_event
+
+        return (new_event, self.check_collisions(new_event))
 
     def get_by_date(self, date):
         list_by_date = []
@@ -47,7 +57,8 @@ class EventManager:
                 event.description = description
                 self.Controller.update_event(event.get_id(), date.toString(), name, start_time.toString(),
                                              stop_time.toString(), description)
-                return event
+
+                return (event, self.check_collisions(event))
 
     def delete_event(self, event_for_delete):
         self.Controller.delete_event(event_for_delete.get_id())

@@ -92,7 +92,7 @@ class DayWindow(QMainWindow):
         eventWidget = self.sender()
         dialog = AddEventDialog(self.currentDay, eventWidget.event, self)
         if dialog.exec() == AddEventDialog.DialogCode.Accepted:
-            event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
+            event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())[0]
             if event.date == self.currentDay:
                 eventWidget.event = event
                 text = f'<b>{event.name}</b><br/>{event.description}'
@@ -116,7 +116,7 @@ class DayWindow(QMainWindow):
         eventWidget = self.sender().parent()
         dialog = AddEventDialog(self.currentDay, eventWidget.event, self)
         if dialog.exec() == AddEventDialog.DialogCode.Accepted:
-            event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
+            event = self.eventManager.update_event(eventWidget.event, dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())[0]
             if event.date == self.currentDay:
                 eventWidget.event = event
                 text = f'<b>{event.name}</b><br/>{event.description}'
@@ -139,7 +139,7 @@ class DayWindow(QMainWindow):
     def add_event_clicked_slot(self):
         dialog = AddEventDialog(self.currentDay, None, self)
         if dialog.exec() == AddEventDialog.DialogCode.Accepted:
-            event = self.eventManager.add_event(dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())
+            event = self.eventManager.add_event(dialog.name(), dialog.date(), dialog.start_time(), dialog.stop_time(), dialog.description())[0]
 
             if self.currentDay == event.date:
                 self.create_event(event, random.choice(list(EventWidget.colors.values())))

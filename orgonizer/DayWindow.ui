@@ -23,6 +23,11 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QPushButton" name="pbWeek">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:50px;</string>
         </property>
@@ -33,6 +38,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay1">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
@@ -43,6 +53,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay2">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
@@ -53,6 +68,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay3">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
@@ -63,6 +83,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay4">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
@@ -73,6 +98,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay5">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
@@ -83,6 +113,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay6">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
@@ -93,16 +128,34 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbDay7">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">min-width:10px;</string>
+         <string notr="true">min-width:10px;
+            </string>
         </property>
         <property name="text">
          <string>Вс</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pbAddNew">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>8</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">min-width:10px;</string>
         </property>
