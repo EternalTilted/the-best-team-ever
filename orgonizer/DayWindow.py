@@ -22,8 +22,6 @@ class DayWindow(QMainWindow):
         self.currentDayNumber = QDate.currentDate().dayOfWeek()
         self.currentDay = QDate.currentDate()
 
-        self.setStyleSheet('QFrame[frameShape="4"] { max-height: none; }')  # Это стиль для горизонтальных линий
-
         self.hourToLabel = {}
         self.dayNumberToButton = {}
         self.init_dicts()
@@ -80,10 +78,12 @@ class DayWindow(QMainWindow):
         x_pos = self.hourToLabel[tmp.event.start_time.hour()].pos().x() + 10
         y_pos = (self.hourToLabel[tmp.event.start_time.hour()].pos().y() +
                  self.hourToLabel[tmp.event.start_time.hour()].height() // 2 +
-                 round(hour_height * tmp.event.start_time.minute() / 60))
+                 round(hour_height * tmp.event.start_time.minute() / 60) +
+                 self.ui.menuBar.height())
         y_stop = (self.hourToLabel[tmp.event.stop_time.hour()].pos().y() +
                   self.hourToLabel[tmp.event.stop_time.hour()].height() // 2 +
-                  round(hour_height * tmp.event.stop_time.minute() / 60))
+                  round(hour_height * tmp.event.stop_time.minute() / 60) +
+                  self.ui.menuBar.height())
         height = max(y_stop - y_pos, 20)
         width = self.hourToLabel[tmp.event.start_time.hour()].width() - 20
         tmp.setGeometry(x_pos, y_pos, width, height)
@@ -134,6 +134,8 @@ class DayWindow(QMainWindow):
 
     def open_week_window_slot(self):
         self.weekWindow.show()
+        self.weekWindow.clear_events()
+        self.weekWindow.init_events()
         self.hide()
 
     def add_event_clicked_slot(self):

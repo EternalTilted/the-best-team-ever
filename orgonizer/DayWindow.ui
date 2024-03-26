@@ -17,6 +17,9 @@
    <iconset>
     <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame[frameShape=&quot;4&quot;] { max-height: none; }</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
     <item>
@@ -528,6 +531,40 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>359</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Меню</string>
+    </property>
+    <addaction name="action"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="action_2"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <action name="action">
+   <property name="text">
+    <string>Просмотр конфликтов</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

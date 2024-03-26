@@ -14,6 +14,12 @@ class EventManager:
                                          stop_time=QTime.fromString(event[3]),
                                          description=event[4]))
 
+    def __new__(cls):
+        # паттерн "Singleton"
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(EventManager, cls).__new__(cls)
+        return cls.instance
+
     def check_collisions(self, event):
         warning_list = []
         for event_in_list in self.event_list:
