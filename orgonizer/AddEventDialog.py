@@ -17,6 +17,7 @@ class AddEventDialog(QDialog):
 
         if self.event is not None:
             self.setWindowTitle('Редактирование')
+            self.ui.pbAdd.setText('Применить')
             self.ui.leName.setText(event.name)
             self.ui.dateEdit.setDate(event.date)
             self.ui.timeEditStart.setTime(event.start_time)
@@ -24,8 +25,8 @@ class AddEventDialog(QDialog):
             self.ui.teDescription.setText(event.description)
 
     def init_connections(self):
-        self.ui.timeEditStart.editingFinished.connect(self.start_time_edit_slot)
-        self.ui.timeEditStop.editingFinished.connect(self.stop_time_edit_slot)
+        self.ui.timeEditStart.timeChanged.connect(self.start_time_edit_slot)
+        self.ui.timeEditStop.timeChanged.connect(self.stop_time_edit_slot)
 
     def name(self):
         return self.ui.leName.text()

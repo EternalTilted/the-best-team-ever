@@ -35,6 +35,11 @@ class DayWindow(QMainWindow):
         self.eventWidgets = []
         self.eventManager = EventManager()
 
+    def keyPressEvent(self, event):
+        if event.key() == 43 or event.key() == 61:
+            self.add_event_clicked_slot()
+        #print("pressed key " + str(event.key()))
+
     def init_events(self):
         for event in self.eventManager.get_by_date(self.currentDay):
             self.create_event(event, random.choice(list(EventWidget.colors.values())))

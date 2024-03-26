@@ -29,6 +29,14 @@ class EventManager:
 
         return list_by_date
 
+    def get_by_interval(self, day1, day2):
+        list_by_date = []
+        for event in self.event_list:
+            if event.date >= day1 and event.date <= day2:
+                list_by_date.append(event)
+
+        return list_by_date
+
     def update_event(self, event_for_update, name, date, start_time, stop_time, description):
         for event in self.event_list:
             if event == event_for_update:
