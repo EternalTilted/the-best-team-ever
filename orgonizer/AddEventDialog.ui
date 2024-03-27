@@ -47,6 +47,9 @@
    </item>
    <item>
     <widget class="QTimeEdit" name="timeEditStart">
+     <property name="accelerated">
+      <bool>true</bool>
+     </property>
      <property name="calendarPopup">
       <bool>true</bool>
      </property>

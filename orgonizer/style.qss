@@ -1,0 +1,33 @@
+* {
+    font-size: 14px;
+    font-family: "Lato";
+}
+
+QPushButton {
+    border-radius: 3px;
+    color: #000080;
+    background-color: #ADD8E6;
+    padding: 5px 5px;
+}
+
+QPushButton:hover {
+    background-color: #87CEEB;
+    color: #000000;
+}
+
+QPushButton:pressed {
+    background-color: #B0E0E6;
+    color: #000000;
+}
+
+QTextEdit, QLineEdit, QTimeEdit, QDateEdit{
+    padding: 5px;
+    border-radius: 3px;
+}
+
+QDateEdit::drop-down,
+QTimeEdit::drop-down {
+    border-radius: 5px ;
+
+}
+

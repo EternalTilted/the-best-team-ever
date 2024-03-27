@@ -57,9 +57,17 @@ class DayWindow(QMainWindow):
         for i in range(1, 8):
             button = self.dayNumberToButton[i]
             if i == self.currentDayNumber:
-                button.setStyleSheet('color: #ff0000; min-width: 10px;')
+                button.setStyleSheet("""
+                        QPushButton {
+                            background-color: #EE3333;
+                            border: 2px solid #EE3333;
+                            border-radius: 3px;
+                            color: #EEEEEE;
+                            padding: 5px 10px;
+                        }
+                    """)
             else:
-                button.setStyleSheet('color: #0000ff; min-width: 10px;')
+                button.setStyleSheet('')
 
     def create_event(self, event, color):
         text = f'<b>{event.name}</b><br/>{event.description}'
@@ -192,4 +200,5 @@ class DayWindow(QMainWindow):
             6: self.ui.pbDay6,
             7: self.ui.pbDay7
         }
+
 

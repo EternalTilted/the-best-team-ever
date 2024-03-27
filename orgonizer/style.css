@@ -1,0 +1,57 @@
+body {
+    --bg-color: white;
+    --txt-color: rgb(32, 32, 32);
+}
+
+.dark-theme {
+    --bg-color: rgb(32, 32, 32);
+    --txt-color: white;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+
+    background-color: var(--bg-color);
+    color: var(--txt-color);
+    fill: var(--txt-color);
+
+    box-sizing: border-box;
+}
+
+.status {
+    font-size: 35px;
+    font-weight: 700;
+
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 40vh;
+
+    height: 85vh;
+    
+    padding: 30px;
+}
+
+.theme-button {
+    background-color: var(--txt-color);
+    color: var(--bg-color);
+
+    height: 48px;
+    width: 48px;
+
+    border-radius: 100px;
+    border: none;
+
+    cursor: pointer;
+}
+
+.theme-button svg {
+    fill: var(--txt-color)
+}

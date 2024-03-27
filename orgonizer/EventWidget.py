@@ -29,7 +29,7 @@ class EventWidget(QLabel):
         }
         EventWidget:hover
         {
-            background:#AA%2;
+            background:#66%2;
         }
         """.replace('%1', str(alpha)).replace('%2', color))
 
